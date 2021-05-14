@@ -26,19 +26,19 @@ app.command('/helloworld', async ({ ack, payload, context }) => {
 
 
 // All the room in the world for your code
-// app.shortcut('create_notion_record', async ({ shortcut, ack, client }) => {
+app.shortcut('create_notion_record', async ({ shortcut, ack, client }) => {
 
-//   try {
-//     // Acknowledge shortcut request
-//     await ack();
+  try {
+    // Acknowledge shortcut request
+    await ack();
 
-//     console.log(result);
+    console.log(shortcut);
     
-//   }
-//   catch (error) {
-//     console.error(error);
-//   }
-// });
+  }
+  catch (error) {
+    console.error(error);
+  }
+});
 
 
 
