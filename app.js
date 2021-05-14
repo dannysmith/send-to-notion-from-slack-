@@ -6,24 +6,58 @@ const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET
 });
 
-
-
-// All the room in the world for your code
-app.shortcut('create_notion_record', async ({ shortcut, ack, client }) => {
+app.command('/helloworld', async ({ ack, payload, context }) => {
+  // Acknowledge the command request
+  ack();
 
   try {
-    // Acknowledge shortcut request
-    await ack();
-
-    // Call the views.open method using one of the built-in WebClients
-    
-
+    const result = await app.client.chat.postMessage({
+      token: context.botToken,
+      // Channel to send message to
+      channel: payload.channel_id,
+      // Include a button in the message (or whatever blocks you want!)
+      blocks: [
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: 'Go ahead. Click it.'
+          },
+          accessory: {
+            type: 'button',
+            text: {
+              type: 'plain_text',
+              text: 'Click me!'
+            },
+            action_id: 'button_abc'
+          }
+        }
+      ],
+      // Text in the notification
+      text: 'Message from Test App'
+    });
     console.log(result);
   }
   catch (error) {
     console.error(error);
   }
 });
+
+
+// All the room in the world for your code
+// app.shortcut('create_notion_record', async ({ shortcut, ack, client }) => {
+
+//   try {
+//     // Acknowledge shortcut request
+//     await ack();
+
+//     console.log(result);
+    
+//   }
+//   catch (error) {
+//     console.error(error);
+//   }
+// });
 
 
 
