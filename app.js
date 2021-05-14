@@ -9,6 +9,21 @@ const app = new App({
 
 
 // All the room in the world for your code
+app.shortcut('create_notion_record', async ({ shortcut, ack, client }) => {
+
+  try {
+    // Acknowledge shortcut request
+    await ack();
+
+    // Call the views.open method using one of the built-in WebClients
+    
+
+    console.log(result);
+  }
+  catch (error) {
+    console.error(error);
+  }
+});
 
 
 
