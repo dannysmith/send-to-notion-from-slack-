@@ -22,9 +22,41 @@ app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
 
     console.log(payload);
     
-    const response = await notion.databases.retrieve({ database_id: databaseId })
-
-    console.log(response)
+    const response = await notion.pages.create({
+        parent: {
+          database_id: databaseId,
+        },
+        properties: {
+          Name: {
+            title: [
+              {
+                text: {
+                  content: 'New Task',
+                },
+              },
+            ],
+          },
+        },
+        children: [
+          {
+            object: 'block',
+            type: 'paragraph',
+            paragraph: {
+              text: [
+                {
+                  type: 'text',
+                  text: {
+                    content: payload.message.text,
+                     link: {
+                      url: "http://google.com"
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      });
     
   }
   catch (error) {
