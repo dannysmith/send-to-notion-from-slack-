@@ -12,6 +12,8 @@ const notion = new Client({
   auth: process.env.NOTION_TOKEN,
 });
 
+const databaseId = '5a395774-8b4a-4111-8b53-6161ac34f2a3';
+
 app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
 
   try {
@@ -19,6 +21,10 @@ app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
     await ack();
 
     console.log(payload);
+    
+    const response = await notion.databases.retrieve({ database_id: databaseId })
+
+    console.log(response)
     
   }
   catch (error) {
