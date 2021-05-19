@@ -14,13 +14,13 @@ const notion = new Client({
 
 const databaseId = '5a395774-8b4a-4111-8b53-6161ac34f2a3';
 
-app.action('save_notion_card', async ({ ack, payload, client }) => {
+app.view('save_notion_card', async ({ ack, body, view, client }) => {
   // Acknowledge shortcut request
   await ack();
   
   // Create Notion Card
   console.log('Form sumittedd ------------')
-  console.log(payload)
+  console.log(body.view.state.values)
   
 })
 
@@ -40,8 +40,20 @@ app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
     
     // Get abailable databases
     const listOfDatabases = await notion.databases.list();
-    const databases = listOfDatabases.results.map((database) => {
-      return {id: database.id, name: database.title[0].text.content}
+    
+    const databases = listOfDatabases.results.map((db) => {
+      return {id: db.id, name: db.title[0].text.content}
+    })
+    
+    const databaseOptionsForModal = databases.map((db) => {
+      return {
+                text: {
+                  type: "plain_text",
+                  text: db.name,
+                  emoji: true
+                },
+                value: db.id
+              }
     })
     console.log(databases)
     
@@ -77,6 +89,7 @@ app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
           },
           {
             type: "input",
+            block_id: "notion_database",
             element: {
               type: "static_select",
               placeholder: {
@@ -84,17 +97,8 @@ app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
                 text: "Choose an Database",
                 emoji: true
               },
-              options: [
-                {
-                  text: {
-                    type: "plain_text",
-                    text: "Legal Kanban",
-                    emoji: true
-                  },
-                  value: "value-0"
-                }
-              ],
-              action_id: "static_select-action"
+              options: databaseOptionsForModal,
+              action_id: "notion_database-action"
             },
             label: {
               type: "plain_text",
@@ -106,11 +110,11 @@ app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
             "type": "input",
             "element": {
               "type": "plain_text_input",
-              "action_id": "plain_text_input-action"
+              "action_id": "card_title-action"
             },
             "label": {
               "type": "plain_text",
-              "text": "Cart Title",
+              "text": "Card Title",
               "emoji": true
             }
           }
