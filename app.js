@@ -20,12 +20,12 @@ app.view('save_notion_card', async ({ ack, body, view, client }) => {
   const databaseId = body.view.state.values.notion_database['notion_database-action'].selected_option.value
   const cardTitle = body.view.state.values.card_title['card_title-action'].value
   const [channelID, messageTS] = body.view.private_metadata.split('+')
+  
   // Get permalink to message
-  console.log(body)
-  // const permalinkResult = await client.chat.getPermalink({
-  //     channel: body.channel.id,
-  //     message_ts: body.message.ts,
-  //   });
+  const permalinkResult = await client.chat.getPermalink({
+      channel: channelID,
+      message_ts: messageTS,
+    }).permalink;
 })
 
 app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
@@ -105,18 +105,34 @@ app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
             }
           },
           {
-            "type": "input",
+            type: "input",
             block_id: "card_title",
-            "element": {
-              "type": "plain_text_input",
-              "action_id": "card_title-action"
+            element: {
+              type: "plain_text_input",
+              action_id: "card_title-action"
             },
-            "label": {
-              "type": "plain_text",
-              "text": "Card Title",
-              "emoji": true
+            label: {
+              type: "plain_text",
+              text: "Card Title",
+              emoji: true
             }
+          },
+          {
+            type: "header",
+            text: {
+              type: "plain_text",
+              text: "Original Message",
+              emoji: true
+            }
+          },
+          {
+          type: "section",
+          block_id: "message_text",
+          text: {
+            type: "mrkdwn",
+            text: payload.message.text
           }
+        }
         ]
       }});
         
