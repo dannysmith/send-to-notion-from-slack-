@@ -12,6 +12,7 @@ Single shortcut trigger
 ## Phase 2
 
 - [ ] Get all Notion Databases to which the app has access and present them in a list for the user.
+- [ ] Add error handling
 
 ## Phase 3
 
