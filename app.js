@@ -22,12 +22,20 @@ app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
 
     console.log(payload);
     
+    // Get permalink to message
     const permalinkResult = await client.chat.getPermalink({
         channel: payload.channel.id,
         message_ts: payload.message.ts,
       });
     
+    // Get abailable databases
+    const listOfDatabases = await notion.databases.list();
+    const databases = listOfDatabases.results.map((database) =>
+      {id: database.id, name: database.title[0].text.content}
+    )
+    console.log(databases)
     
+    // Create notion page
     const response = await notion.pages.create({
         parent: {
           database_id: databaseId,
