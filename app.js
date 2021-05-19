@@ -14,6 +14,16 @@ const notion = new Client({
 
 const databaseId = '5a395774-8b4a-4111-8b53-6161ac34f2a3';
 
+app.action('save_notion_card', async ({ ack, payload, client }) => {
+  // Acknowledge shortcut request
+  await ack();
+  
+  // Create Notion Card
+  console.log('Form sumittedd ------------')
+  console.log(payload)
+  
+})
+
 app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
 
   try {
@@ -39,56 +49,57 @@ app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
      const modalResult = await client.views.open({
       trigger_id: payload.trigger_id,
       view: {
-        "type": "modal",
-        "title": {
-          "type": "plain_text",
-          "text": "MAdd Card to Notion",
-          "emoji": true
+        type: "modal",
+        callback_id: 'save_notion_card',
+        title: {
+          type: "plain_text",
+          text: "Add Card to Notion",
+          emoji: true
         },
-        "submit": {
-          "type": "plain_text",
-          "text": "Add Card",
-          "emoji": true
+        submit: {
+          type: "plain_text",
+          text: "Add Card",
+          emoji: true
         },
-        "close": {
-          "type": "plain_text",
-          "text": "Cancel",
-          "emoji": true
+        close: {
+          type: "plain_text",
+          text: "Cancel",
+          emoji: true
         },
-        "blocks": [
+        blocks: [
           {
-            "type": "section",
-            "text": {
-              "type": "plain_text",
-              "text": "Create a record in Notion from this message.",
-              "emoji": true
+            type: "section",
+            text: {
+              type: "plain_text",
+              text: "Create a record in Notion from this message.",
+              emoji: true
             }
           },
           {
-            "type": "input",
-            "element": {
-              "type": "static_select",
-              "placeholder": {
-                "type": "plain_text",
-                "text": "Select an Database",
-                "emoji": true
+            type: "input",
+            element: {
+              type: "static_select",
+              placeholder: {
+                type: "plain_text",
+                text: "Choose an Database",
+                emoji: true
               },
-              "options": [
+              options: [
                 {
-                  "text": {
-                    "type": "plain_text",
-                    "text": "Legal Kanban",
-                    "emoji": true
+                  text: {
+                    type: "plain_text",
+                    text: "Legal Kanban",
+                    emoji: true
                   },
-                  "value": "value-0"
+                  value: "value-0"
                 }
               ],
-              "action_id": "static_select-action"
+              action_id: "static_select-action"
             },
-            "label": {
-              "type": "plain_text",
-              "text": "Notion Database",
-              "emoji": true
+            label: {
+              type: "plain_text",
+              text: "Notion Database",
+              emoji: true
             }
           },
           {
@@ -105,9 +116,7 @@ app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
           }
         ]
       }});
-    
-    console.log(modalResult);
-    
+        
     // Create notion page
     // const response = await notion.pages.create({
     //     parent: {
