@@ -1,22 +1,21 @@
-Bolt app template
-=================
+# Oyster Notion Slackbot
 
-[Bolt](https://slack.dev/bolt) is our framework that lets you build JavaScript-based Slack apps in a flash.
+# Phase 1
 
-This project is a simple app template to make it easy to create your first Bolt app. Read our [Getting Started with Bolt](https://api.slack.com/start/building/bolt) guide for a more in-depth tutorial
+Single shortcut trigger
 
-Your Project
-------------
+1. Show modal asking for title.
+2. Get message permalink from slack API
+3. Create Card using data from modal and permalink
+4. Respond with link to Kanban card in the thread.
 
-- `app.js` contains the primary Bolt app. It imports the Bolt package (`@slack/bolt`) and starts the Bolt app's server. It's where you'll add your app's listeners.
-- `.env` is where you'll put your Slack app's authorization token and signing secret.
-- The `examples/` folder contains a couple of other sample apps that you can peruse to your liking. They show off a few platform features that your app may want to use.
+## Phase 2
 
+- [ ] Get all Notion Databases to which the app has access and present them in a list for the user.
 
-Read the [Getting Started guide](https://api.slack.com/start/building/bolt)
--------------------
+## Phase 3
+
+- [ ] Allow users to install and configure the app for any slack.
+
 
 Read the [Bolt documentation](https://slack.dev/bolt)
--------------------
-
-\ ゜o゜)ノ

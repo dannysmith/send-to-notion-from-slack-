@@ -23,9 +23,10 @@ app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
     console.log(payload);
     
     const permalinkResult = await client.chat.getPermalink({
-        channel: message.channel,
-        message_ts: message.ts,
+        channel: payload.channel.id,
+        message_ts: payload.message.ts,
       });
+    
     
     const response = await notion.pages.create({
         parent: {
@@ -67,7 +68,7 @@ app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
                   text: {
                     content: "Original Slack Message",
                      link: {
-                      url: "http://google.com"
+                      url: permalinkResult.permalink
                     },
                   },
                 },
