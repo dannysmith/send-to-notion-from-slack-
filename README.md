@@ -1,22 +1,19 @@
 # Oyster Notion Slackbot
 
-# Phase 1
-
-Single shortcut trigger
-
-1. Show modal asking for title.
-2. Get message permalink from slack API
-3. Create Card using data from modal and permalink
-4. Respond with link to Kanban card in the thread.
+- [ ] Add icon and better name to Slackbot etc
+- [ ] Add icon to Notion integration app
 
 ## Phase 2
 
-- [ ] Get all Notion Databases to which the app has access and present them in a list for the user.
-- [ ] Add error handling
+- [ ] Add error handling for Notion call
+- [ ] Add error handling for slack calls
+- [ ] Refactor and tidy up code
 
 ## Phase 3
 
-- [ ] Allow users to install and configure the app for any slack.
+- [ ] Make general purpose - initially as a Glitch that can be remixed.
+- [ ] Add instructions to readme
+- [ ] Write up explanation on Medium
 
 
 Read the [Bolt documentation](https://slack.dev/bolt)

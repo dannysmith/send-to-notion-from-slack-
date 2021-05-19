@@ -79,10 +79,19 @@ app.view('save_notion_card', async ({ ack, body, view, client }) => {
       ],
     });
   
-  console.log(response)
-  const url = response.id.split('-').join('')
-  console.log(url)
+  const url = 'https://notion.so/' + response.id.split('-').join('')
+  
+  const result = await app.client.chat.postMessage({
+      token: process.env.SLACK_BOT_TOKEN,
+      channel: channelID,
+      thread_ts: messageTS,
+      text: "Card Created in Notion :notion:\r\r" + url
+    });
+  
+  console.log('Done')
 })
+
+
 
 app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
 
