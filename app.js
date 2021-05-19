@@ -12,16 +12,20 @@ const notion = new Client({
   auth: process.env.NOTION_TOKEN,
 });
 
-const databaseId = '5a395774-8b4a-4111-8b53-6161ac34f2a3';
-
 app.view('save_notion_card', async ({ ack, body, view, client }) => {
   // Acknowledge shortcut request
   await ack();
   
-  // Create Notion Card
-  console.log('Form sumittedd ------------')
-  console.log(body.view.state.values)
-  
+  // CGet data from form submission
+  const databaseId = body.view.state.values.notion_database['notion_database-action'].selected_option.value
+  const cardTitle = body.view.state.values.card_title['card_title-action'].value
+
+  // Get permalink to message
+  console.log(body)
+  // const permalinkResult = await client.chat.getPermalink({
+  //     channel: body.channel.id,
+  //     message_ts: body.message.ts,
+  //   });
 })
 
 app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
@@ -30,13 +34,6 @@ app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
     // Acknowledge shortcut request
     await ack();
 
-    // console.log(payload);
-    
-    // Get permalink to message
-    const permalinkResult = await client.chat.getPermalink({
-        channel: payload.channel.id,
-        message_ts: payload.message.ts,
-      });
     
     // Get abailable databases
     const listOfDatabases = await notion.databases.list();
@@ -108,6 +105,7 @@ app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
           },
           {
             "type": "input",
+            block_id: "card_title",
             "element": {
               "type": "plain_text_input",
               "action_id": "card_title-action"
