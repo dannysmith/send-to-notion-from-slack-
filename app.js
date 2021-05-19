@@ -19,6 +19,8 @@ app.view('save_notion_card', async ({ ack, body, view, client }) => {
   // CGet data from form submission
   const databaseId = body.view.state.values.notion_database['notion_database-action'].selected_option.value
   const cardTitle = body.view.state.values.card_title['card_title-action'].value
+  // const message = body.view.state.values.card_title['card_title-action'].value
+  console.log(body.view)
   const [channelID, messageTS] = body.view.private_metadata.split('+')
   
   // Get permalink to message
@@ -118,21 +120,20 @@ app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
             }
           },
           {
-            type: "header",
-            text: {
+            type: "input",
+            block_id: "message_text",
+            element: {
+              type: "plain_text_input",
+              initial_value: payload.message.text,
+              multiline: true,
+              action_id: "message_text-action"
+            },
+            label: {
               type: "plain_text",
-              text: "Original Message",
+              text: "Details",
               emoji: true
             }
-          },
-          {
-          type: "section",
-          block_id: "message_text",
-          text: {
-            type: "mrkdwn",
-            text: payload.message.text
           }
-        }
         ]
       }});
         
