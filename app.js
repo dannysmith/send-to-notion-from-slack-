@@ -42,33 +42,71 @@ app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
         "type": "modal",
         "title": {
           "type": "plain_text",
-          "text": "My App"
+          "text": "MAdd Card to Notion",
+          "emoji": true
+        },
+        "submit": {
+          "type": "plain_text",
+          "text": "Add Card",
+          "emoji": true
         },
         "close": {
           "type": "plain_text",
-          "text": "Close"
+          "text": "Cancel",
+          "emoji": true
         },
         "blocks": [
           {
             "type": "section",
             "text": {
-              "type": "mrkdwn",
-              "text": "About the simplest modal you could conceive of :smile:\n\nMaybe <https://api.slack.com/reference/block-kit/interactive-components|*make the modal interactive*> or <https://api.slack.com/surfaces/modals/using#modifying|*learn more advanced modal use cases*>."
+              "type": "plain_text",
+              "text": "Create a record in Notion from this message.",
+              "emoji": true
             }
           },
           {
-            "type": "context",
-            "elements": [
-              {
-                "type": "mrkdwn",
-                "text": "Psssst this modal was designed using <https://api.slack.com/tools/block-kit-builder|*Block Kit Builder*>"
-              }
-            ]
+            "type": "input",
+            "element": {
+              "type": "static_select",
+              "placeholder": {
+                "type": "plain_text",
+                "text": "Select an Database",
+                "emoji": true
+              },
+              "options": [
+                {
+                  "text": {
+                    "type": "plain_text",
+                    "text": "Legal Kanban",
+                    "emoji": true
+                  },
+                  "value": "value-0"
+                }
+              ],
+              "action_id": "static_select-action"
+            },
+            "label": {
+              "type": "plain_text",
+              "text": "Notion Database",
+              "emoji": true
+            }
+          },
+          {
+            "type": "input",
+            "element": {
+              "type": "plain_text_input",
+              "action_id": "plain_text_input-action"
+            },
+            "label": {
+              "type": "plain_text",
+              "text": "Cart Title",
+              "emoji": true
+            }
           }
         ]
-      }
-    });
+      }});
     
+    console.log(modalResult);
     
     // Create notion page
     // const response = await notion.pages.create({
