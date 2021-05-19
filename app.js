@@ -19,15 +19,69 @@ app.view('save_notion_card', async ({ ack, body, view, client }) => {
   // CGet data from form submission
   const databaseId = body.view.state.values.notion_database['notion_database-action'].selected_option.value
   const cardTitle = body.view.state.values.card_title['card_title-action'].value
-  // const message = body.view.state.values.card_title['card_title-action'].value
-  console.log(body.view)
+  const message = body.view.state.values.message_text['message_text-action'].value
   const [channelID, messageTS] = body.view.private_metadata.split('+')
   
   // Get permalink to message
   const permalinkResult = await client.chat.getPermalink({
       channel: channelID,
       message_ts: messageTS,
-    }).permalink;
+    });
+  
+  // Create notion page
+  const response = await notion.pages.create({
+      parent: {
+        database_id: databaseId,
+      },
+      properties: {
+        Name: {
+          title: [
+            {
+              text: {
+                content: cardTitle,
+              },
+            },
+          ],
+        },
+      },
+      children: [
+        {
+          object: 'block',
+          type: 'paragraph',
+          paragraph: {
+            text: [
+              {
+                type: 'text',
+                text: {
+                  content: message,
+                },
+              },
+            ],
+          },
+        },
+        {
+          object: 'block',
+          type: 'paragraph',
+          paragraph: {
+            text: [
+              {
+                type: 'text',
+                text: {
+                  content: "Original Slack Message",
+                   link: {
+                    url: permalinkResult.permalink
+                  },
+                },
+              },
+            ],
+          },
+        },
+      ],
+    });
+  
+  console.log(response)
+  const url = response.id.split('-').join('')
+  console.log(url)
 })
 
 app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
@@ -136,57 +190,6 @@ app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
           }
         ]
       }});
-        
-    // Create notion page
-    // const response = await notion.pages.create({
-    //     parent: {
-    //       database_id: databaseId,
-    //     },
-    //     properties: {
-    //       Name: {
-    //         title: [
-    //           {
-    //             text: {
-    //               content: 'New Task',
-    //             },
-    //           },
-    //         ],
-    //       },
-    //     },
-    //     children: [
-    //       {
-    //         object: 'block',
-    //         type: 'paragraph',
-    //         paragraph: {
-    //           text: [
-    //             {
-    //               type: 'text',
-    //               text: {
-    //                 content: payload.message.text,
-    //               },
-    //             },
-    //           ],
-    //         },
-    //       },
-    //       {
-    //         object: 'block',
-    //         type: 'paragraph',
-    //         paragraph: {
-    //           text: [
-    //             {
-    //               type: 'text',
-    //               text: {
-    //                 content: "Original Slack Message",
-    //                  link: {
-    //                   url: permalinkResult.permalink
-    //                 },
-    //               },
-    //             },
-    //           ],
-    //         },
-    //       },
-    //     ],
-    //   });
     
   }
   catch (error) {
