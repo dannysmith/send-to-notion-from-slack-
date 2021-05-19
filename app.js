@@ -19,7 +19,7 @@ app.view('save_notion_card', async ({ ack, body, view, client }) => {
   // CGet data from form submission
   const databaseId = body.view.state.values.notion_database['notion_database-action'].selected_option.value
   const cardTitle = body.view.state.values.card_title['card_title-action'].value
-
+  const [channelID, messageTS] = body.view.private_metadata.split('+')
   // Get permalink to message
   console.log(body)
   // const permalinkResult = await client.chat.getPermalink({
@@ -60,6 +60,7 @@ app.shortcut('create_notion_record', async ({ ack, payload, client }) => {
       view: {
         type: "modal",
         callback_id: 'save_notion_card',
+        private_metadata: `${payload.channel.id}+${payload.message.ts}`,
         title: {
           type: "plain_text",
           text: "Add Card to Notion",
