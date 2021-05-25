@@ -1,10 +1,11 @@
 # Oyster Notion Slackbot
 
-- [ ] Add icon and better name to Slackbot etc
-- [ ] Add icon to Notion integration app
+- [X] Add icon and better name to Slackbot etc
+- [X] Add icon to Notion integration app
 
 ## Phase 2
 
+- [ ] Fix issue with Name field
 - [ ] Add error handling for Notion call
 - [ ] Add error handling for slack calls
 - [ ] Refactor and tidy up code
