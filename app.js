@@ -44,7 +44,7 @@ app.view('save_notion_card', async ({ ack, body, view, client }) => {
         database_id: databaseId,
       },
       properties: {
-        titleField: {
+        [titleField]: {
           title: [
             {
               text: {
