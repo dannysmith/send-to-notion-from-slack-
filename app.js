@@ -28,6 +28,10 @@ app.view('save_notion_card', async ({ ack, body, view, client }) => {
       message_ts: messageTS,
     });
   
+  // Get title field of Database
+  const notionDatabase = await notion.databases.retrieve({ database_id: databaseId });
+  console.log(notionDatabase);
+  
   // Create notion page
   const response = await notion.pages.create({
       parent: {
