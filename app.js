@@ -30,7 +30,13 @@ app.view('save_notion_card', async ({ ack, body, view, client }) => {
   
   // Get title field of Database
   const notionDatabase = await notion.databases.retrieve({ database_id: databaseId });
-  console.log(notionDatabase.properties);
+  
+  function findTitleField(props) {
+    const index = Object.values(props).findIndex((el) => el.id === 'title')
+    return Object.keys(props)[index]
+  }
+
+  const titleField = findTitleField(notionDatabase.properties)
   
   // Create notion page
   const response = await notion.pages.create({
@@ -38,7 +44,7 @@ app.view('save_notion_card', async ({ ack, body, view, client }) => {
         database_id: databaseId,
       },
       properties: {
-        Name: {
+        titleField: {
           title: [
             {
               text: {
